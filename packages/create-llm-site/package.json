@@ -6,12 +6,28 @@
   "bin": {
     "create-llm-site": "bin/create-llm-site.js"
   },
-  "files": ["bin", "template"],
+  "files": [
+    "bin",
+    "template"
+  ],
   "scripts": {},
   "dependencies": {
     "minimist": "^1.2.8",
     "prompts": "^2.4.2"
   },
-  "keywords": ["llm", "vite", "scaffold", "agentic-web"],
-  "license": "MIT"
+  "keywords": [
+    "llm",
+    "vite",
+    "scaffold",
+    "agentic-web"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hocestnonsatis/LLM-Site-Kit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hocestnonsatis/LLM-Site-Kit/issues"
+  },
+  "homepage": "https://github.com/hocestnonsatis/LLM-Site-Kit#readme"
 }

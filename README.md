@@ -22,7 +22,7 @@ See [MASTER.md](./MASTER.md) for vision, architecture, and roadmap.
 
 ```bash
 # Clone and install
-git clone https://github.com/your-org/LLM-Site-Kit.git
+git clone https://github.com/hocestnonsatis/LLM-Site-Kit.git
 cd LLM-Site-Kit
 npm install
 

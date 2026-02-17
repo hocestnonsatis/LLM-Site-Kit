@@ -44,5 +44,13 @@
     "documentation",
     "agentic-web"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hocestnonsatis/LLM-Site-Kit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hocestnonsatis/LLM-Site-Kit/issues"
+  },
+  "homepage": "https://github.com/hocestnonsatis/LLM-Site-Kit#readme"
 }

@@ -22,7 +22,7 @@ Thank you for your interest in contributing. This document explains how to set u
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/YOUR_ORG/LLM-Site-Kit.git
+   git clone https://github.com/hocestnonsatis/LLM-Site-Kit.git
    cd LLM-Site-Kit
    ```
 
