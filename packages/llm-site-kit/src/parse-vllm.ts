@@ -1,6 +1,6 @@
 /**
- * .vllm parser: re-exports AST-based implementation.
- * Use parse-vllm-ast.ts for the actual acorn-based parser.
+ * Doc parser: Markdown + YAML frontmatter (.md / .mdx).
+ * Re-exports parseMarkdownSource as parseVLLMSource for backward compatibility.
  */
 
-export { parseVLLMSource } from './parse-vllm-ast.js';
+export { parseMarkdownSource, parseMarkdownSource as parseVLLMSource } from './parse-markdown.js';

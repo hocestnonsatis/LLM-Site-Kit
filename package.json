@@ -8,7 +8,8 @@
     "build": "npm run build --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "build:packages": "npm run build --workspace=llm-site-kit",
-    "publish:all": "npm run build:packages && npm publish -w llm-site-kit && npm publish -w create-llm-site"
+    "publish:all": "npm run build:packages && npm publish -w llm-site-kit && npm publish -w create-llm-site",
+    "publish:packages": "npm run build:packages && npm publish -w llm-site-kit -w create-llm-site --access public"
   },
   "workspaces": [
     "packages/llm-site-kit",

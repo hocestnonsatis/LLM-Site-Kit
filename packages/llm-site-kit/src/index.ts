@@ -7,7 +7,7 @@ export type { LLMSiteKitOptions } from './plugin.js';
 export { isAgentRequest, LLM_CLIENT_HEADER, ACCEPT_LLM_JSON } from './agent.js';
 export type { AgentDetectionOptions } from './agent.js';
 export type { LLMMeta, VLLMModule, VLLMCompiled } from './vllm.js';
-export { parseVLLMSource } from './parse-vllm.js';
+export { parseMarkdownSource, parseVLLMSource } from './parse-vllm.js';
 export { generateLLMSitemap } from './sitemap.js';
 export type { LLMSitemap, LLMSitemapEntry } from './sitemap.js';
 export { estimateTokenCost, DEFAULT_CHARS_PER_TOKEN } from './tokens.js';

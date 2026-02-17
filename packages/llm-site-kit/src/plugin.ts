@@ -1,5 +1,5 @@
 /**
- * Vite plugin: .vllm resolution, agent middleware, llm-sitemap.json generation.
+ * Vite plugin: Markdown + frontmatter (.md / .mdx) resolution, agent middleware, llm-sitemap.json generation.
  */
 
 import type { Plugin } from 'vite';
@@ -32,7 +32,7 @@ function validateDependencyGraph(entries: VLLMCompiled[]): void {
         if (!warnedDeps.has(key)) {
           warnedDeps.add(key);
           console.warn(
-            `[llm-site-kit] Dependency warning: "${entry.path}" requires "${req}", but no .vllm file resolves to that path. Agents may hit a broken link.`
+            `[llm-site-kit] Dependency warning: "${entry.path}" requires "${req}", but no .md/.mdx file resolves to that path. Agents may hit a broken link.`
           );
         }
       }
@@ -41,7 +41,7 @@ function validateDependencyGraph(entries: VLLMCompiled[]): void {
 }
 
 export interface LLMSiteKitOptions {
-  /** Root directory for .vllm files (relative to project root). Default "src/docs" */
+  /** Root directory for .md / .mdx doc files (relative to project root). Default "src/docs" */
   docsDir?: string;
   /** URL path prefix for doc routes (e.g. /docs). Default "/docs" */
   basePath?: string;
@@ -57,7 +57,7 @@ export interface LLMSiteKitOptions {
    */
   sitemapOutputDir?: string;
   /**
-   * Build a static BM25 search index from .vllm docs and write search-index.json next to generated.js.
+   * Build a static BM25 search index from .md/.mdx docs and write search-index.json next to generated.js.
    * Enables the MCP tool search_documentation. Default false (opt-in) to avoid longer builds on large doc sets.
    */
   enableSearchIndex?: boolean;
@@ -84,10 +84,10 @@ export function llmSiteKit(options: LLMSiteKitOptions = {}): Plugin {
       for (const name of readdirSync(dir, { withFileTypes: true })) {
         const full = resolve(dir, name.name);
         if (name.isDirectory()) walk(full, `${prefix}${name.name}/`);
-        else if (name.name.endsWith('.vllm')) {
+        else if (name.name.endsWith('.md') || name.name.endsWith('.mdx')) {
           const source = readFileSync(full, 'utf-8');
           const { content, meta } = parseVLLMSource(source);
-          const pathName = (prefix + name.name.replace(/\.vllm$/, '')).replace(/\/$/, '') || 'index';
+          const pathName = (prefix + name.name.replace(/\.(mdx?)$/, '')).replace(/\/$/, '') || 'index';
           const routePath = `${basePath}/${pathName}`.replace(/\/+/g, '/');
           entries.push({ content, meta, path: routePath });
         }
@@ -105,10 +105,10 @@ export function llmSiteKit(options: LLMSiteKitOptions = {}): Plugin {
       for (const name of readdirSync(dir, { withFileTypes: true })) {
         const full = resolve(dir, name.name);
         if (name.isDirectory()) walk(full, `${prefix}${name.name}/`);
-        else if (name.name.endsWith('.vllm')) {
+        else if (name.name.endsWith('.md') || name.name.endsWith('.mdx')) {
           const source = readFileSync(full, 'utf-8');
           const { content, meta } = parseVLLMSource(source);
-          const pathName = (prefix + name.name.replace(/\.vllm$/, '')).replace(/\/$/, '') || 'index';
+          const pathName = (prefix + name.name.replace(/\.(mdx?)$/, '')).replace(/\/$/, '') || 'index';
           const routePath = `${basePath}/${pathName}`.replace(/\/+/g, '/');
           entries.push({ content, meta, path: routePath });
         }
@@ -189,12 +189,12 @@ export function llmSiteKit(options: LLMSiteKitOptions = {}): Plugin {
     },
 
     resolveId(id: string) {
-      if (id.endsWith('.vllm')) return id;
+      if (id.endsWith('.md') || id.endsWith('.mdx')) return id;
       return null;
     },
 
     load(id: string) {
-      if (!id.endsWith('.vllm')) return null;
+      if (!id.endsWith('.md') && !id.endsWith('.mdx')) return null;
       const root = resolvedRoot ?? process.cwd();
       const fsPath = id.startsWith(root) ? id : resolve(root, id.replace(/^\//, ''));
       try {
@@ -202,7 +202,7 @@ export function llmSiteKit(options: LLMSiteKitOptions = {}): Plugin {
         const { content, meta } = parseVLLMSource(source);
         const docsFull = resolve(root, docsDir);
         const relativePath = relative(docsFull, fsPath).replace(/\\/g, '/');
-        const pathName = relativePath.replace(/\.vllm$/, '').replace(/\/index$/, '') || 'index';
+        const pathName = relativePath.replace(/\.(mdx?)$/, '').replace(/\/index$/, '') || 'index';
         const routePath = `${basePath}/${pathName}`.replace(/\/+/g, '/');
         const out: VLLMCompiled = { content, meta, path: routePath };
         return `export default ${JSON.stringify(out)};`;
@@ -226,14 +226,20 @@ export function llmSiteKit(options: LLMSiteKitOptions = {}): Plugin {
 
         const segment = pathname === basePath ? 'index' : pathname.slice(base.length);
         const docsFull = resolve(resolvedRoot, docsDir);
-        const vllmPath = resolve(docsFull, `${segment}.vllm`);
-        const vllmPathIndex = resolve(docsFull, segment, 'index.vllm');
+        const mdPath = resolve(docsFull, `${segment}.md`);
+        const mdxPath = resolve(docsFull, `${segment}.mdx`);
+        const indexMd = resolve(docsFull, segment, 'index.md');
+        const indexMdx = resolve(docsFull, segment, 'index.mdx');
 
         let source: string | null = null;
-        if (existsSync(vllmPath)) {
-          source = readFileSync(vllmPath, 'utf-8');
-        } else if (existsSync(vllmPathIndex)) {
-          source = readFileSync(vllmPathIndex, 'utf-8');
+        if (existsSync(mdPath)) {
+          source = readFileSync(mdPath, 'utf-8');
+        } else if (existsSync(mdxPath)) {
+          source = readFileSync(mdxPath, 'utf-8');
+        } else if (existsSync(indexMd)) {
+          source = readFileSync(indexMd, 'utf-8');
+        } else if (existsSync(indexMdx)) {
+          source = readFileSync(indexMdx, 'utf-8');
         }
         if (!source) return next();
 

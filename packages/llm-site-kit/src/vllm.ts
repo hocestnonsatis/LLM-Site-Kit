@@ -1,6 +1,6 @@
 /**
- * .vllm file format: structural logic blocks for machine consumption.
- * Each .vllm module exports LLM_Meta and a default function returning content.
+ * Doc metadata: same shape as YAML frontmatter in .md / .mdx files.
+ * Used for sitemap, agent payload, and MCP.
  */
 
 export interface LLMMeta {
@@ -24,7 +24,7 @@ export interface VLLMModule {
 }
 
 /**
- * Result of compiling a .vllm file: content + metadata for sitemap and agent response.
+ * Result of compiling a doc file (.md / .mdx): content (body only) + metadata for sitemap and agent response.
  */
 export interface VLLMCompiled {
   content: string;
