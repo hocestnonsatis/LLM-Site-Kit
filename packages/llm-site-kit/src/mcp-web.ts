@@ -1,6 +1,7 @@
 /**
  * Zero-config MCP web handler: SSE + Streamable HTTP in a single handler.
- * Use from SvelteKit hooks.server.ts for path /mcp (GET /mcp/sse, POST /mcp/messages).
+ * Use from SvelteKit hooks.server.ts for path /mcp.
+ * Accepts GET/POST /mcp (single path) and GET /mcp/sse, POST /mcp/messages (split path).
  */
 
 import { WebStandardStreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js';
@@ -40,7 +41,10 @@ async function getOrCreateServerAndTransport(
 }
 
 /**
- * Handle MCP HTTP requests: GET /mcp/sse (SSE stream) and POST /mcp/messages (JSON-RPC).
+ * Handle MCP HTTP requests. Supports both single-path and split-path patterns so
+ * Cursor and other clients can use base URL http://localhost:PORT/mcp:
+ * - GET /mcp or GET /mcp/sse → SSE stream
+ * - POST /mcp or POST /mcp/messages → JSON-RPC messages
  * Returns a Response with CORS headers (Access-Control-Allow-Origin: *) applied.
  * Use in SvelteKit handle() when event.url.pathname.startsWith('/mcp').
  */
@@ -52,13 +56,12 @@ export async function handleMcpRequest(
   const url = new URL(request.url);
   const { pathname } = url;
 
-  if (pathname === '/mcp/sse' && request.method === 'GET') {
-    const transport = await getOrCreateServerAndTransport(agentDocs, searchIndex);
-    const response = await transport.handleRequest(request);
-    return withCors(response);
-  }
+  const isGetSse =
+    request.method === 'GET' && (pathname === '/mcp' || pathname === '/mcp/sse');
+  const isPostMessages =
+    request.method === 'POST' && (pathname === '/mcp' || pathname === '/mcp/messages');
 
-  if (pathname === '/mcp/messages' && request.method === 'POST') {
+  if (isGetSse || isPostMessages) {
     const transport = await getOrCreateServerAndTransport(agentDocs, searchIndex);
     const response = await transport.handleRequest(request);
     return withCors(response);

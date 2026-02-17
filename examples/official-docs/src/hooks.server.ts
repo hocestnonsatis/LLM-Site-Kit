@@ -1,15 +1,21 @@
 /**
  * SvelteKit server hooks: agent-aware routing.
  * For requests identified as LLM/agent, serve JSON payload from pre-built agent docs.
+ * /mcp/* is handled by zero-config MCP web handler (GET/POST /mcp, GET /mcp/sse, POST /mcp/messages).
  */
-import { isAgentRequest } from 'llm-site-kit';
+import { isAgentRequest, handleMcpRequest } from 'llm-site-kit';
 import { agentDocs } from '$lib/llm-site-kit/generated.js';
+import searchIndex from '$lib/llm-site-kit/search-index.json';
 
 const DOCS_BASE = '/docs';
 
 export async function handle({ event, resolve }) {
   const { request } = event;
   const url = new URL(request.url);
+
+  if (url.pathname.startsWith('/mcp')) {
+    return handleMcpRequest(request, agentDocs, searchIndex);
+  }
 
   if (request.method !== 'GET' || !url.pathname.startsWith(DOCS_BASE)) {
     return resolve(event);
