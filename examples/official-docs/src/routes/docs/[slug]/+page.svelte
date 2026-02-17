@@ -2,9 +2,9 @@
   import { page } from '$app/state';
   import { agentDocs } from '$lib/llm-site-kit/generated.js';
 
-  const slug = $page.params.slug;
-  const path = `/docs/${slug}`;
-  const doc = agentDocs[path];
+  const slug = $derived(page.params.slug);
+  const path = $derived(`/docs/${slug}`);
+  const doc = $derived(agentDocs[path]);
 </script>
 
 {#if doc}

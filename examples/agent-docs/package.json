@@ -9,7 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "llm-site-kit": "*"
+    "highlight.js": "^11.10.0",
+    "llm-site-kit": "*",
+    "marked": "^15.0.0"
   },
   "devDependencies": {
     "@sveltejs/adapter-node": "^5.0.0",

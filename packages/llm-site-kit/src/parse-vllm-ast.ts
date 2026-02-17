@@ -78,14 +78,16 @@ function toLLMMeta(obj: Record<string, unknown>): LLMMeta {
 
 /**
  * Extract template literal string from a TemplateLiteral node.
+ * Uses 'cooked' so escape sequences (e.g. \`) are interpreted; 'raw' would leave backslashes literal.
  */
 function getTemplateLiteralString(node: ASTNode): string {
   const r = node as Record<string, unknown>;
-  const quasis = (r.quasis ?? []) as Array<{ value: { raw: string } }>;
+  const quasis = (r.quasis ?? []) as Array<{ value: { raw: string; cooked?: string | null } }>;
   const expressions = (r.expressions ?? []) as ASTNode[];
   const parts: string[] = [];
   for (let i = 0; i < quasis.length; i++) {
-    parts.push(quasis[i].value.raw);
+    const value = quasis[i].value;
+    parts.push(value.cooked != null ? value.cooked : value.raw);
     if (i < expressions.length) parts.push('');
   }
   return parts.join('');

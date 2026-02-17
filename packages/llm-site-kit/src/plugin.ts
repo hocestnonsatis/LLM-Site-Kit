@@ -162,6 +162,12 @@ export function llmSiteKit(options: LLMSiteKitOptions = {}): Plugin {
         'utf-8'
       );
     }
+
+    if (entries.length > 0) {
+      console.log(
+        `[llm-site-kit] Generated ${generatedModulePath} (${entries.length} doc(s))${options.enableSearchIndex ? ', search-index.json' : ''}.`
+      );
+    }
   }
 
   return {
