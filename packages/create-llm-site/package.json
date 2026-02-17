@@ -1,0 +1,17 @@
+{
+  "name": "create-llm-site",
+  "version": "1.0.0",
+  "description": "Scaffold a new LLM-Site-Kit project",
+  "type": "module",
+  "bin": {
+    "create-llm-site": "bin/create-llm-site.js"
+  },
+  "files": ["bin", "template"],
+  "scripts": {},
+  "dependencies": {
+    "minimist": "^1.2.8",
+    "prompts": "^2.4.2"
+  },
+  "keywords": ["llm", "vite", "scaffold", "agentic-web"],
+  "license": "MIT"
+}

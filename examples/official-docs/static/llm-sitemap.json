@@ -1,0 +1,44 @@
+{
+  "version": "1.0",
+  "entries": [
+    {
+      "path": "/docs/architecture",
+      "token_cost": 220,
+      "requires": [
+        "/docs/introduction"
+      ],
+      "priority": "high",
+      "category": "core-concept",
+      "summary": "Architecture"
+    },
+    {
+      "path": "/docs/introduction",
+      "token_cost": 180,
+      "requires": [],
+      "priority": "high",
+      "category": "getting-started",
+      "summary": "Introduction"
+    },
+    {
+      "path": "/docs/mcp-server",
+      "token_cost": 200,
+      "requires": [
+        "/docs/introduction"
+      ],
+      "priority": "high",
+      "category": "integration",
+      "summary": "MCP Server"
+    },
+    {
+      "path": "/docs/search-index",
+      "token_cost": 190,
+      "requires": [
+        "/docs/introduction"
+      ],
+      "priority": "high",
+      "category": "integration",
+      "summary": "Search Index (Zero-Compute BM25)"
+    }
+  ],
+  "generated_at": "2026-02-17T19:43:10.936Z"
+}

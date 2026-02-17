@@ -1,0 +1,44 @@
+{
+  "name": "llm-site-kit",
+  "version": "1.0.0",
+  "description": "Vite-powered, headless web framework for LLMs and autonomous AI agents",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./mcp": {
+      "import": "./dist/mcp.js",
+      "types": "./dist/mcp.d.ts"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup src/index.ts src/mcp.ts src/cli-mcp.ts --format esm --dts --clean",
+    "dev": "npm run build -- --watch"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "acorn": "^8.14.0",
+    "acorn-walk": "^8.3.4",
+    "zod": "^3.23.0"
+  },
+  "bin": {
+    "llm-site-mcp": "./dist/cli-mcp.js"
+  },
+  "peerDependencies": {
+    "vite": ">=5.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0",
+    "vite": "^5.0.0"
+  },
+  "keywords": ["vite", "llm", "agent", "documentation", "agentic-web"],
+  "license": "MIT"
+}

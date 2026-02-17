@@ -1,0 +1,23 @@
+{
+  "name": "llm-site-kit-monorepo",
+  "private": true,
+  "description": "Monorepo for LLM-Site-Kit — framework for the Agentic Web",
+  "scripts": {
+    "dev": "npm run dev --workspace=examples/agent-docs",
+    "dev:docs": "npm run dev --workspace=examples/official-docs",
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "build:packages": "npm run build --workspace=llm-site-kit",
+    "publish:all": "npm run build:packages && npm publish -w llm-site-kit && npm publish -w create-llm-site"
+  },
+  "workspaces": [
+    "packages/llm-site-kit",
+    "packages/create-llm-site",
+    "examples/agent-docs",
+    "examples/official-docs"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT"
+}
