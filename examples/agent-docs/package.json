@@ -9,15 +9,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "highlight.js": "^11.10.0",
+    "highlight.js": "^11.11.1",
     "llm-site-kit": "*",
-    "marked": "^15.0.0"
+    "marked": "^17.0.3"
   },
   "devDependencies": {
-    "@sveltejs/adapter-node": "^5.0.0",
-    "@sveltejs/kit": "^2.0.0",
+    "@sveltejs/adapter-node": "^5.5.3",
+    "@sveltejs/kit": "^2.52.0",
     "@sveltejs/vite-plugin-svelte": "^4.0.0",
     "svelte": "^5.0.0",
-    "vite": "^5.0.0"
+    "vite": "^5.4.0"
   }
 }
