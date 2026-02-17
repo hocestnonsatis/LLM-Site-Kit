@@ -16,18 +16,17 @@
       "types": "./dist/mcp.d.ts"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "build": "tsup src/index.ts src/mcp.ts src/mcp-web.ts src/cli-mcp.ts --format esm --dts --clean",
+    "build": "tsup src/index.ts src/mcp.ts src/mcp-web.ts --format esm --dts --clean",
     "dev": "npm run build -- --watch"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.26.0",
     "gray-matter": "^4.0.3",
     "zod": "^3.25.0"
-  },
-  "bin": {
-    "llm-site-mcp": "./dist/cli-mcp.js"
   },
   "peerDependencies": {
     "vite": ">=5.0.0"
@@ -38,6 +37,12 @@
     "typescript": "^5.7.0",
     "vite": "^5.4.0"
   },
-  "keywords": ["vite", "llm", "agent", "documentation", "agentic-web"],
+  "keywords": [
+    "vite",
+    "llm",
+    "agent",
+    "documentation",
+    "agentic-web"
+  ],
   "license": "MIT"
 }

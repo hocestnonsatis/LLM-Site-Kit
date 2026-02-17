@@ -8,23 +8,16 @@ requires:
 
 # MCP Server
 
-LLM-Site-Kit exposes your documentation as an **MCP (Model Context Protocol)** server. Any MCP client (Cursor, Claude Desktop, custom agents) can list pages, read content, and—when the search index is enabled—search docs by natural language.
+LLM-Site-Kit exposes your documentation as an **MCP (Model Context Protocol)** server over the web. Any MCP client that supports HTTP/SSE (Cursor, Claude Desktop, custom agents) can list pages, read content, and—when the search index is enabled—search docs by natural language.
 
-## Starting the server
+## Zero-Config SSE Web Server
 
-After building your project (so that `src/lib/llm-site-kit/generated.js` exists), run from the **project root**:
+No separate process or CLI. When your site is running (dev or deployed), the MCP server is available at:
 
-```bash
-npx llm-site-mcp
-```
+- **SSE**: `GET https://your-site.com/mcp/sse` — open an EventStream to receive server-sent events.
+- **Messages**: `POST https://your-site.com/mcp/messages` — send JSON-RPC messages.
 
-The server uses **stdio** transport: it reads from stdin and writes to stdout. Configure your MCP client to run this command and communicate over stdio.
-
-Override the path to the generated payload if needed:
-
-```bash
-LLM_SITE_GENERATED_PATH=src/lib/llm-site-kit/generated.js npx llm-site-mcp
-```
+The default SvelteKit hooks (template and `examples/agent-docs`) use `handleMcpRequest` from `llm-site-kit`, so `/mcp` routes work with no extra configuration. Deploy your site and agents can connect to `https://your-site.com/mcp/sse` immediately.
 
 ## Tools provided
 
@@ -34,7 +27,14 @@ LLM_SITE_GENERATED_PATH=src/lib/llm-site-kit/generated.js npx llm-site-mcp
 
 ## Programmatic use
 
-You can create an MCP server in code and attach your own transport:
+For web (SSE/Streamable HTTP), use the built-in handler in your SvelteKit `hooks.server.ts`:
+
+```js
+import { handleMcpRequest } from 'llm-site-kit';
+// In handle(): if (url.pathname.startsWith('/mcp')) return handleMcpRequest(request, agentDocs, searchIndex);
+```
+
+To build a custom MCP server with your own transport:
 
 ```js
 import { createMcpServer } from 'llm-site-kit/mcp';
@@ -42,7 +42,7 @@ import { agentDocs } from './generated.js';
 import { searchIndex } from './search-index.json'; // optional
 
 const server = createMcpServer(agentDocs, { searchIndex });
-// Attach transport (e.g. stdio, HTTP) and connect.
+// Attach transport (e.g. WebStandardStreamableHTTPServerTransport) and connect.
 ```
 
 When `searchIndex` is provided, the `search_documentation` tool is registered automatically.

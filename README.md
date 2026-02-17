@@ -46,13 +46,12 @@ You get JSON: `content`, `meta` (path, token_cost, priority), and `data_llm_requ
 
 ## MCP integration
 
-After building your app, start the MCP server from the **project root**:
+The framework includes a **Zero-Config SSE Web Server** for MCP. No separate process or CLI—when you deploy your site, agents can connect over HTTP/SSE immediately.
 
-```bash
-npx llm-site-mcp
-```
+- **SSE endpoint**: `GET https://your-site.com/mcp/sse` — clients open an EventStream and receive server-sent events.
+- **Messages endpoint**: `POST https://your-site.com/mcp/messages` — clients send JSON-RPC messages here.
 
-The server uses **stdio** and loads `src/lib/llm-site-kit/generated.js`. Set `LLM_SITE_GENERATED_PATH` to override.
+If your app uses the default SvelteKit hooks (from the template or `examples/agent-docs`), the `/mcp` routes are already handled via `handleMcpRequest` from `llm-site-kit`. No extra configuration required.
 
 | Tool | Description |
 |------|-------------|
@@ -60,7 +59,7 @@ The server uses **stdio** and loads `src/lib/llm-site-kit/generated.js`. Set `LL
 | **read_documentation_page** | `{ path }` → full content, meta, and `data_llm_require`. |
 | **search_documentation** | `{ query }` → top-3 pages by relevance (when search index is enabled). |
 
-Programmatic use: `import { createMcpServer } from 'llm-site-kit/mcp'` and attach your own transport.
+Programmatic use: `import { createMcpServer } from 'llm-site-kit/mcp'` or `import { handleMcpRequest } from 'llm-site-kit'` for web handling.
 
 ---
 
@@ -80,7 +79,7 @@ llmSiteKit({
 ```
 
 2. Build: the plugin emits `search-index.json` next to `generated.js` (BM25 inverted index).
-3. Run `npx llm-site-mcp`: the **search_documentation** tool is registered and returns top-3 results for a natural-language query.
+3. With the Zero-Config MCP web handler, the **search_documentation** tool is available at `/mcp/sse` and `/mcp/messages` and returns top-3 results for a natural-language query.
 
 Opt-in by design — indexing can lengthen build on large doc sets; leave it `false` if you don’t need search.
 

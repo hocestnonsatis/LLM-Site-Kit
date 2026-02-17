@@ -82,14 +82,13 @@ If you change the plugin (`packages/llm-site-kit/src/plugin.ts`), .vllm resoluti
 
 ### MCP server changes
 
-If you change the MCP server (`packages/llm-site-kit/src/mcp.ts`), CLI (`cli-mcp.ts`), or search index usage:
+If you change the MCP server (`packages/llm-site-kit/src/mcp.ts`), web handler (`mcp-web.ts`), or search index usage:
 
 1. Rebuild:  
    `npm run build --workspace=llm-site-kit`
 2. From an example app (e.g. `examples/agent-docs` or `examples/official-docs`), ensure the app has been built at least once so `generated.js` (and optionally `search-index.json`) exists.
-3. From the **example app directory** (or repo root if your MCP client is configured to use it), start the MCP server:  
-   `npx llm-site-mcp`
-4. With an MCP client (e.g. Cursor, Claude Desktop), verify:
+3. Run the example app (`npm run dev`) and use an MCP client that supports HTTP/SSE to connect to `http://localhost:5173/mcp/sse` (or the port Vite prints).
+4. Verify:
    - `list_documentation_pages` returns the expected paths.
    - `read_documentation_page` returns content for a given path.
    - If the example has `enableSearchIndex: true`, `search_documentation` returns top results for a query.

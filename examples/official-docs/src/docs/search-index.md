@@ -33,7 +33,7 @@ The index is **BM25** (k1=1.2, b=0.75). No embeddings or vector DB; fully local 
 
 ## MCP tool: search_documentation
 
-Once the index exists, the MCP server (e.g. `npx llm-site-mcp`) registers the `search_documentation` tool. The agent sends a `query` string; the server tokenizes the query, scores documents using the pre-built index, and returns the **top-3** results with `path`, `summary`, and `relevance_score`.
+Once the index exists, the Zero-Config MCP web handler registers the `search_documentation` tool at `/mcp/sse` and `/mcp/messages`. The agent sends a `query` string; the server tokenizes the query, scores documents using the pre-built index, and returns the **top-3** results with `path`, `summary`, and `relevance_score`.
 
 Example: query "how to start MCP server" might return `/docs/mcp-server` with the highest score, then other related pages.
 
