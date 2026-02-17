@@ -12,7 +12,7 @@
   "dependencies": {
     "highlight.js": "^11.10.0",
     "llm-site-kit": "*",
-    "marked": "^15.0.0"
+    "marked": "^17.0.3"
   },
   "devDependencies": {
     "@sveltejs/adapter-node": "^5.0.0",
