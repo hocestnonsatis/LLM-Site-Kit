@@ -1,0 +1,82 @@
+name: Bug report
+description: Report a bug (parsing, token calculation, MCP, agent response, etc.)
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug. Please fill out the sections below so we can reproduce and fix the issue.
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Clear description of the bug
+      placeholder: e.g. Agent requests to /docs/setup return 404 in production build.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: How can we reproduce this?
+      placeholder: |
+        1. npm run build in examples/agent-docs
+        2. npm run preview
+        3. curl -A "GPTBot/1.0" http://localhost:4173/docs/setup
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What should happen?
+      placeholder: JSON payload with content and meta.
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: What actually happens? (error message, wrong output, etc.)
+  - type: input
+    id: node-version
+    attributes:
+      label: Node.js version
+      placeholder: e.g. 20.10.0
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      placeholder: e.g. Windows 11, macOS 14, Ubuntu 22.04
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area (if applicable)
+      description: Where does the bug likely live?
+      options:
+        - ".vllm parsing / AST"
+        - "Vite plugin / build"
+        - "Agent routing / hooks"
+        - "Token calculation (tokens.ts)"
+        - "MCP server / list_documentation_pages"
+        - "MCP server / read_documentation_page"
+        - "MCP server / search_documentation"
+        - "Search index (BM25)"
+        - "Sitemap / requires"
+        - "Other"
+    validations:
+      required: false
+  - type: input
+    id: llm-model
+    attributes:
+      label: LLM / client (if MCP or agent-related)
+      description: Only if the bug involves an agent or MCP client
+      placeholder: e.g. Claude 3.5, Cursor MCP, GPTBot
+  - type: textarea
+    id: extra
+    attributes:
+      label: Additional context
+      description: Logs, screenshots, or other details.
