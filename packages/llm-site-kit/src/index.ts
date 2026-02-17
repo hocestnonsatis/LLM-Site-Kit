@@ -13,5 +13,6 @@ export type { LLMSitemap, LLMSitemapEntry } from './sitemap.js';
 export { estimateTokenCost, DEFAULT_CHARS_PER_TOKEN } from './tokens.js';
 export { createMcpServer } from './mcp.js';
 export type { AgentDocEntry, AgentDocsMap, CreateMcpServerOptions } from './mcp.js';
+export { handleMcpRequest } from './mcp-web.js';
 export { buildSearchIndex, search, tokenize } from './search-index.js';
 export type { SearchIndex, SearchIndexDocument, IndexInputEntry } from './search-index.js';
